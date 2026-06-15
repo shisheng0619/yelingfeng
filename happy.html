@@ -12,53 +12,107 @@
       font-family: "微软雅黑", sans-serif;
     }
     body {
-      background: #f8f2e4;
+      background-image: url("背景.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
       padding: 20px;
+      background-attachment: scroll;
+      background-color: rgba(255, 255, 255, 0.12);
+      overflow-x: hidden;
+      transition: background-position 0.1s ease-out;
+      position: relative;
+    }
+    .time-box {
+      width: 100%;
+      text-align: right;
+      padding: 0 20px;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+    .time-inner {
+      display: inline-block;
+      background-image: url("倒计时背景.png");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      padding: 18px 26px;
+      text-align: center;
+      line-height: 1.5;
+      color: #5c3c18;
+      transform: scale(1.5) translateY(80%);
+      transform-origin: right top;
+    }
+    .date-text {
+      font-size: 1.1rem;
+      display: block;
+      font-weight: 500;
+    }
+    .week-text {
+      font-size: 0.95rem;
+      display: block;
+    }
+    /* 底部苹果装饰容器 */
+    .apple-decor {
+      width: 100%;
+      text-align: center;
+      margin: 30px 0 40px;
+      opacity: 0.85;
+      cursor: pointer;
+    }
+    .apple-decor img {
+      width: 320px;
+      image-rendering: pixelated;
+      transition: 0.2s;
     }
     .header {
       text-align: center;
       margin: 30px 0;
+      position: relative;
+      z-index: 2;
     }
     h1 {
-      color: #8b4513;
+      color: #fff;
       font-size: 2.2rem;
       margin-bottom: 10px;
+      text-shadow: 2px 2px 6px #00000070;
     }
     .subtitle {
-      color: #a0522d;
+      color: #f8f8f8;
       font-size: 1.1rem;
+      text-shadow: 1px 1px 4px #00000080;
     }
-    /* 音频播放器样式 */
     .audio-box {
       width: 300px;
       margin: 0 auto 40px;
+      position: relative;
+      z-index: 2;
     }
     audio {
       display:block;
       margin: 0 auto 30px;
       width: 250px;
     }
-    /* 电脑端固定每行6个卡片 */
     .character-wrap {
       max-width: 1400px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 20px;
+      position: relative;
+      z-index: 2;
     }
-    /* 单个角色卡片 */
     .char-card {
-      background: #fff;
+      background: #ffffffdd;
       padding: 15px;
       border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(139, 69, 19, 0.2);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
       text-align: center;
       transition: transform 0.2s;
     }
     .char-card:hover {
       transform: translateY(-5px);
     }
-    /* 正方形头像 */
     .char-card img {
       width: 100px;
       height: 100px;
@@ -69,40 +123,67 @@
     }
     .char-name {
       font-weight: bold;
-      color: #5c3a21;
+      color: #222;
       font-size: 1.1rem;
       margin-bottom: 8px;
     }
     .char-wish {
-      color: #666;
+      color: #333;
       font-size: 0.9rem;
       line-height: 1.4;
     }
     .footer {
       text-align: center;
-      margin: 50px 0 20px;
-      color: #8b4513;
+      margin: 50px 0 0;
+      color: #ffffff;
+      text-shadow: 1px 1px 4px #000;
+      font-size: 1.05rem;
+      position: relative;
+      z-index: 2;
     }
-    /* 移动端自适应 */
     @media (max-width: 1200px) {
       .character-wrap {
         grid-template-columns: repeat(3, 1fr);
+      }
+      .apple-decor img {
+        width: 240px;
       }
     }
     @media (max-width: 600px) {
       .character-wrap {
         grid-template-columns: repeat(2, 1fr);
       }
+      h1 {
+        font-size: 1.5rem;
+      }
+      .apple-decor img {
+        width: 180px;
+      }
+      .time-inner {
+        padding: 12px 18px;
+      }
+      .date-text {
+        font-size: 0.9rem;
+      }
+      .week-text {
+        font-size: 0.78rem;
+      }
     }
   </style>
 </head>
 <body>
+<div class="time-box">
+  <div class="time-inner">
+    <span class="date-text" id="date-text">加载日期</span>
+    <span class="week-text" id="week-text">加载星期</span>
+  </div>
+</div>
+
 <div class="header">
   <h1>🎂 亲爱的叶凌枫——生日快乐！！！ 🎂</h1>
   <p class="subtitle">人生将从此展开新的一页...但前途必然是光明的！</p>
 </div>
 
-<!-- 背景音乐 请确保文件名为 bgm.mp3 放在同目录 -->
 <div class="audio-box">
   <audio controls preload="metadata">
     <source src="8bite - happy birthday.mp3" type="audio/mpeg">
@@ -110,9 +191,8 @@
 
 </div>
 
-<!-- 角色区域 电脑端每行6人 -->
 <div class="character-wrap">
-  <!-- 第一行 6人（首位改为哈维） -->
+  <!-- 第一行 -->
   <div class="char-card">
     <img src="艾利欧特.png" alt="艾利欧特">
     <div class="char-name">艾利欧特</div>
@@ -144,7 +224,7 @@
     <div class="char-wish">生日快乐！我特意挤了些鲜奶，记得抽空过来尝尝</div>
   </div>
 
-  <!-- 第二行 6人 -->
+  <!-- 第二行 -->
   <div class="char-card">
     <img src="罗宾.png" alt="罗宾">
     <div class="char-name">罗宾</div>
@@ -176,7 +256,7 @@
     <div class="char-wish">生日快乐！希望你能享受今天剩下的时间</div>
   </div>
 
-  <!-- 第三行 6人 -->
+  <!-- 第三行 -->
   <div class="char-card">
     <img src="艾芙琳.png" alt="艾芙琳">
     <div class="char-name">艾芙琳</div>
@@ -208,7 +288,7 @@
     <div class="char-wish">生日快乐！有空一起去矿洞探险吧！</div>
   </div>
 
-  <!-- 第四行 6人 -->
+  <!-- 第四行 -->
   <div class="char-card">
     <img src="玛鲁.png" alt="玛鲁">
     <div class="char-name">玛鲁</div>
@@ -244,5 +324,59 @@
 <div class="footer">
   <p>来自星露谷小镇全体居民的祝福 ✨</p>
 </div>
+
+<!-- 底部可点击切换苹果图 -->
+<div class="apple-decor" id="appleWrap">
+  <img id="appleImg" src="祝尼魔背景.png" alt="星露谷四色苹果">
+</div>
+
+<script>
+  // 实时日期星期
+  const dateDom = document.getElementById('date-text');
+  const weekDom = document.getElementById('week-text');
+  const weekArr = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  function updateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const week = weekArr[now.getDay()];
+    dateDom.innerText = `${year}年${month}月${day}日`;
+    weekDom.innerText = week;
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
+
+  // 滚轮视差背景
+  window.addEventListener('scroll', function() {
+    const scrollY = window.pageYOffset;
+    const speed = 0.35;
+    const yPos = 50 + (scrollY * speed) / 10;
+    document.body.style.backgroundPosition = `50% ${yPos}%`;
+  })
+
+  // 点击绿色苹果切换图片逻辑
+  const appleWrap = document.getElementById('appleWrap');
+  const appleImg = document.getElementById('appleImg');
+  let isSwitch = false;
+  // 两张图片文件名
+  const img1 = "祝尼魔背景.png";    // 四色原图
+  const img2 = "祝尼魔动图.png"; // 第二张爱心小青图
+
+  appleWrap.addEventListener('click', function(e) {
+    // 获取图片宽高 + 点击X坐标，定位绿色苹果区域
+    const imgWidth = appleImg.offsetWidth;
+    const clickX = e.offsetX;
+    // 四色苹果均分宽度：蓝(0~25%)、绿(25%~50%)、黄(50%~75%)、粉(75%~100%)
+    const greenStart = imgWidth * 0.25;
+    const greenEnd = imgWidth * 0.5;
+
+    // 只有点击绿色苹果区域才切换
+    if(clickX >= greenStart && clickX <= greenEnd) {
+      isSwitch = !isSwitch;
+      appleImg.src = isSwitch ? img2 : img1;
+    }
+  })
+</script>
 </body>
 </html>
